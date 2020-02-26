@@ -1,0 +1,14 @@
+{
+  "name": "apexstats-bot",
+  "version": "1.0.0",
+  "description": "just another apex legends bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emigdio Torres R.",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}
