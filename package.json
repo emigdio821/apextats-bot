@@ -9,6 +9,7 @@
   "author": "Emigdio Torres R.",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "discord.js": "^11.5.1",
+    "giphy-js-sdk-core": "^1.0.6"
   }
 }
