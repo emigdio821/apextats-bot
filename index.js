@@ -3,6 +3,7 @@ const GphApiClient = require("giphy-js-sdk-core");
 const { prefix, discordToken, giphyToken } = require("./config.json");
 const client = new Discord.Client();
 const giphy = GphApiClient(giphyToken);
+const colorBox = 3447003;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -35,19 +36,22 @@ function handleMsg(msgContent, msg) {
   } else if (msgContent === "pito pito") {
     msg.reply("gorgorito!");
   } else if (
-    msgContent == "john" ||
-    msgContent == "jhon" ||
-    msgContent == "stricken"
+    msgContent === "john" ||
+    msgContent === "jhon" ||
+    msgContent === "stricken"
   ) {
-    msg.channel.send(
-      "Jonathan A.K.A. ThestralMG es el más joto del server." + " :eyes:"
-    );
+    msg.channel.send({
+      embed: {
+        color: colorBox,
+        description: "Jonathan A.K.A. ThestralMG es el más joto del server." + " :eyes:"
+      }
+    });
   }
 }
 
 function onGifCommand(msg) {
   giphy
-    .search("gifs", { "q": "apex legends" })
+    .search("gifs", { q: "apex legends" })
     .then(response => {
       let gifLength = response.data.length;
       let gifIdx = Math.floor(Math.random() * 10 + 1) % gifLength;
@@ -65,7 +69,7 @@ function onGifCommand(msg) {
 function onHelpCommand(msg) {
   msg.channel.send({
     embed: {
-      color: 3447003,
+      color: colorBox,
       description:
         "**!ax help** - To display available commands \n" +
         "**!ax gif** - To display a random apex legends gif. \n" +
