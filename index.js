@@ -1,80 +1,71 @@
 const Discord = require("discord.js");
-const GphApiClient = require("giphy-js-sdk-core");
-const { prefix, discordToken, giphyToken } = require("./config.json");
 const client = new Discord.Client();
-const giphy = GphApiClient(giphyToken);
-const colorBox = 3447003;
+const giphyCommand = require("./commands/giphyCommand.js");
+const helpCommand = require("./commands/helpCommand.js");
+const statsCommand = require("./commands/statsCommand.js");
+const { prefix, discordToken } = require("./config-files/config.json");
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setActivity("!ax help", { type: "LISTENING" });
 });
 
-client.on("message", msg => {
-  // console.log(msg.content);
-  // if (msg.author.bot) return;
-  // if (msg.content.indexOf(prefix) !== 0) return;
-  let msgContent = msg.content.toLowerCase();
+client.on("message", message => {
+  let msgContent = message.content.toLowerCase();
 
-  if (msg.content.startsWith(`${prefix} gif`)) {
-    onGifCommand(msg);
+  if (msgContent === "ping") {
+    message.reply("Pong!");
+  } else if (msgContent === "ding") {
+    message.reply("Dong!");
+  } else if (msgContent === "pito pito") {
+    message.reply("gorgorito!");
   }
 
-  if (msg.content.startsWith(`${prefix} help`)) {
-    onHelpCommand(msg);
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+  if (message.content.startsWith(`${prefix} gif`)) {
+    giphyCommand.onSearchGiphy(message);
   }
 
-  handleMsg(msgContent, msg);
+  if (message.content.startsWith(`${prefix} help`)) {
+    helpCommand.onHelpMessage(message);
+  }
+
+  //to be removed :P
+  const isValidJohnStr =
+    message.content.startsWith(`${prefix} john`) ||
+    message.content.startsWith(`${prefix} jhon`) ||
+    message.content.startsWith(`${prefix} stricken`);
+  if (isValidJohnStr) {
+    handleMsg(msgContent, message);
+  }
+  //
+
+  let statsPrefix = `${prefix} stats`;
+  if (message.content.startsWith(statsPrefix)) {
+    const args = message.content.slice(statsPrefix.length).split(" ");
+    const options = args.filter(Boolean);
+
+    if (options.length <= 0) return;
+    statsCommand.onShowStats(message, options);
+  }
 });
 
 client.login(discordToken);
 
 function handleMsg(msgContent, msg) {
-  if (msgContent === "ping") {
-    msg.reply("Pong!");
-  } else if (msgContent === "ding") {
-    msg.reply("Dong!");
-  } else if (msgContent === "pito pito") {
-    msg.reply("gorgorito!");
-  } else if (
-    msgContent === "john" ||
-    msgContent === "jhon" ||
-    msgContent === "stricken"
+  let msgNoPrefix = msgContent.replace(prefix, "").trim();
+  if (
+    msgNoPrefix == "john" ||
+    msgNoPrefix == "jhon" ||
+    msgNoPrefix == "stricken"
   ) {
     msg.channel.send({
       embed: {
-        color: colorBox,
-        description: "Jonathan A.K.A. ThestralMG es el más joto del server." + " :eyes:"
+        description:
+          "Jonathan A.K.A. **ThestralMG** es el más joto del server." +
+          " :eyes:"
       }
     });
   }
-}
-
-function onGifCommand(msg) {
-  giphy
-    .search("gifs", { q: "apex legends" })
-    .then(response => {
-      let gifLength = response.data.length;
-      let gifIdx = Math.floor(Math.random() * 10 + 1) % gifLength;
-      let pickedGif = response.data[gifIdx];
-
-      msg.channel.send("Here you have it my nigga :wink:", {
-        files: [pickedGif.images.fixed_height.url]
-      });
-    })
-    .catch(() => {
-      msg.channel.send("Oops! something went wrong :cry:");
-    });
-}
-
-function onHelpCommand(msg) {
-  msg.channel.send({
-    embed: {
-      color: colorBox,
-      description:
-        "**!ax help** - To display available commands \n" +
-        "**!ax gif** - To display a random apex legends gif. \n" +
-        "**!ax john/jhon/stricken** - To display a nice message :innocent: (work in progress)" +
-        "."
-    }
-  });
 }
