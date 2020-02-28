@@ -31,16 +31,6 @@ client.on("message", message => {
     helpCommand.onHelpMessage(message);
   }
 
-  //to be removed :P
-  const isValidJohnStr =
-    message.content.startsWith(`${prefix} john`) ||
-    message.content.startsWith(`${prefix} jhon`) ||
-    message.content.startsWith(`${prefix} stricken`);
-  if (isValidJohnStr) {
-    handleMsg(msgContent, message);
-  }
-  //
-
   let statsPrefix = `${prefix} stats`;
   if (message.content.startsWith(statsPrefix)) {
     const args = message.content.slice(statsPrefix.length).split(" ");
@@ -52,20 +42,3 @@ client.on("message", message => {
 });
 
 client.login(discordToken);
-
-function handleMsg(msgContent, msg) {
-  let msgNoPrefix = msgContent.replace(prefix, "").trim();
-  if (
-    msgNoPrefix == "john" ||
-    msgNoPrefix == "jhon" ||
-    msgNoPrefix == "stricken"
-  ) {
-    msg.channel.send({
-      embed: {
-        description:
-          "Jonathan A.K.A. **ThestralMG** es el más joto del server." +
-          " :eyes:"
-      }
-    });
-  }
-}

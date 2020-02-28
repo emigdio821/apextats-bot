@@ -5,25 +5,23 @@ const { apexToken } = require("../config-files/config.json");
 module.exports = {
   onShowStats: (message, options) => {
     if (options.length < 2) {
-      message.channel.send({
-        embed: {
-          author: {
-            name: "OOPS!",
-            icon_url:
-              "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/caution-512.png"
-          },
-          description:
-            "Seems like you are missing an option, please review the available" +
-            " commands by typing **`!ax help`**, remember that if you want to review your stats," +
-            " it should be something like this:\n" +
-            "**`!ax stats {your_username} {platform_where_you_play}`**"
-        }
-      });
-
+      let description =
+        "Seems like you are missing an option, please review the available" +
+        " commands by typing **`!ax help`**, remember that if you want to review your stats," +
+        " it should be something like this:\n" +
+        "**`!ax stats {your_username} {platform_where_you_play}`**";
+      onDisplayErrorMsg(message, description);
       return;
     }
 
     const platform = getPlatform(options[1].toLowerCase());
+    if (!platform) {
+      onDisplayErrorMsg(
+        message,
+        "Seems like you inserted an invalid platform :thinking:"
+      );
+      return;
+    }
     const url = `https://public-api.tracker.gg/apex/v1/standard/profile/${platform}/${options[0]}`;
 
     fetch(url, {
@@ -33,17 +31,7 @@ module.exports = {
       .then(res => res.json())
       .then(json => {
         if (json.errors) {
-          message.channel.send({
-            embed: {
-              author: {
-                name: "OOPS!",
-                icon_url:
-                  "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/caution-512.png"
-              },
-              description: json.errors[0].message
-            }
-          });
-
+          onDisplayErrorMsg(message, `${json.errors[0].message} :grimacing:`);
           return;
         }
         const data = json.data;
@@ -52,11 +40,11 @@ module.exports = {
         const kills = getObjByKey(stats, "Kills");
         const rankScore = getObjByKey(stats, "RankScore");
         const embed = new Discord.RichEmbed()
-          .setAuthor("Xtats Bot", data.metadata.avatarUrl)
+          .setAuthor("【 XTATS 】", data.metadata.avatarUrl)
           .setTitle(
-            `${
-              data.metadata.platformUserHandle
-            } | ${options[1].toUpperCase()} | ${data.metadata.rankName}`
+            `${data.metadata.platformUserHandle} | ${stylePlatformStr(
+              options[1]
+            )} | ${data.metadata.rankName}`
           )
           .setURL(
             `https://apex.tracker.gg/apex/search?name=${options[0]}&platform=${platform}`
@@ -85,7 +73,7 @@ module.exports = {
         message.channel.send({ embed });
       })
       .catch(err => {
-        console.log(err);
+        onDisplayErrorMsg(message, err);
       });
   }
 };
@@ -98,6 +86,8 @@ var getPlatform = platform => {
     platformCode = 2;
   } else if (platform === "origin" || platform === "pc") {
     platformCode = 5;
+  } else {
+    return false;
   }
 
   return platformCode;
@@ -105,4 +95,28 @@ var getPlatform = platform => {
 
 var getObjByKey = (array, key) => {
   return array.find(element => element.metadata.key === key);
+};
+
+var stylePlatformStr = platform => {
+  let platformStyled;
+  if (platform === "ps") {
+    platformStyled = "playstation";
+  } else if (platform === "origin" || platform === "pc") {
+    platformStyled = "origin(pc)";
+  }
+
+  return platformStyled.toUpperCase();
+};
+
+var onDisplayErrorMsg = (message, description) => {
+  return message.channel.send({
+    embed: {
+      author: {
+        name: "【 OOPS! 】",
+        icon_url:
+          "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/caution-512.png"
+      },
+      description: description
+    }
+  });
 };
