@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const axios = require("axios");
 const Discord = require("discord.js");
 const { apexToken } = require("../config-files/config.json");
 
@@ -14,7 +14,13 @@ module.exports = {
       return;
     }
 
-    const platform = getPlatform(options[1].toLowerCase());
+    const platformStr = options.pop();
+    const platform = getPlatform(platformStr.toLowerCase());
+    const user = options.join(" ");
+    const url = `https://public-api.tracker.gg/apex/v1/standard/profile/${platform}/${formatParamSpace(
+      user
+    )}/`;
+
     if (!platform) {
       onDisplayErrorMsg(
         message,
@@ -22,19 +28,13 @@ module.exports = {
       );
       return;
     }
-    const url = `https://public-api.tracker.gg/apex/v1/standard/profile/${platform}/${options[0]}`;
 
-    fetch(url, {
-      method: "get",
-      headers: { "TRN-Api-Key": apexToken }
-    })
-      .then(res => res.json())
-      .then(json => {
-        if (json.errors) {
-          onDisplayErrorMsg(message, `${json.errors[0].message} :grimacing:`);
-          return;
-        }
-        const data = json.data;
+    axios
+      .get(url, {
+        headers: { "TRN-Api-Key": apexToken }
+      })
+      .then(response => {
+        const data = response.data.data;
         const stats = data.stats;
         const level = getObjByKey(stats, "Level");
         const kills = getObjByKey(stats, "Kills");
@@ -43,11 +43,13 @@ module.exports = {
           .setAuthor("【 XTATS 】", data.metadata.avatarUrl)
           .setTitle(
             `${data.metadata.platformUserHandle} | ${stylePlatformStr(
-              options[1]
+              platformStr
             )} | ${data.metadata.rankName}`
           )
           .setURL(
-            `https://apex.tracker.gg/apex/search?name=${options[0]}&platform=${platform}`
+            `https://apex.tracker.gg/apex/search?name=${formatParamSpace(
+              user
+            )}&platform=${platform}`
           )
           .setThumbnail(data.metadata.rankImage)
           // .setColor("#FC3903")
@@ -56,24 +58,39 @@ module.exports = {
               "Here you have some of your Apex Legends stats:"
           )
           .setImage(data.children[0].metadata.bgimage)
-          .addField(`**${level.metadata.name}**`, level.displayValue, true)
-          .addField(`**${kills.metadata.name}**`, kills.displayValue, true)
           // .addBlankField(true)
-          .addField(
-            `**${rankScore.metadata.name}**`,
-            rankScore.displayValue,
-            true
-          )
           .setFooter(
             "Powered by apex.tracker.gg",
             data.children[0].metadata.icon
           )
           .setTimestamp();
 
+        if (level)
+          embed.addField(
+            `**${level.metadata.name}**`,
+            level.displayValue,
+            true
+          );
+        if (kills)
+          embed.addField(
+            `**${kills.metadata.name}**`,
+            kills.displayValue,
+            true
+          );
+        if (rankScore)
+          embed.addField(
+            `**${rankScore.metadata.name}**`,
+            rankScore.displayValue,
+            true
+          );
+
         message.channel.send({ embed });
       })
-      .catch(err => {
-        onDisplayErrorMsg(message, err);
+      .catch(error => {
+        onDisplayErrorMsg(
+          message,
+          `${error.response.data.errors[0].message} :grimacing:`
+        );
       });
   }
 };
@@ -82,7 +99,7 @@ var getPlatform = platform => {
   let platformCode;
   if (platform === "xbox") {
     platformCode = 1;
-  } else if (platform === "ps") {
+  } else if (platform === "ps" || platform === "psn") {
     platformCode = 2;
   } else if (platform === "origin" || platform === "pc") {
     platformCode = 5;
@@ -98,11 +115,11 @@ var getObjByKey = (array, key) => {
 };
 
 var stylePlatformStr = platform => {
-  let platformStyled;
-  if (platform === "ps") {
+  let platformStyled = platform;
+  if (platform === "ps" || platform === "psn") {
     platformStyled = "playstation";
   } else if (platform === "origin" || platform === "pc") {
-    platformStyled = "origin(pc)";
+    platformStyled = "origin (pc)";
   }
 
   return platformStyled.toUpperCase();
@@ -119,4 +136,8 @@ var onDisplayErrorMsg = (message, description) => {
       description: description
     }
   });
+};
+
+var formatParamSpace = str => {
+  return str.replace(/ /g, "%20");
 };

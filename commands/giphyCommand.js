@@ -13,7 +13,7 @@ module.exports = {
 
         message.channel.send({
           embed: {
-            description: "Here you have it my nigga :wink:",
+            description: "GIF found! - beep boop :wrench: :robot:",
             files: [pickedGif.images.fixed_height.url]
           }
         });
@@ -21,7 +21,7 @@ module.exports = {
       .catch(() => {
         message.channel.send({
           embed: {
-            description: "Oops! something went wrong :cry:"
+            description: "Oops! something went wrong, try again :cry:"
           }
         });
       });
