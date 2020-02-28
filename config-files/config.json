@@ -2,5 +2,6 @@
   "prefix": "!ax",
   "discordToken": "your discord token here",
   "giphyToken": "your giphy token here",
-  "apexToken": "your apex token here"
+  "apexToken": "your apex token here",
+  "discordClientId": "your discord client id here"
 }
