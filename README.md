@@ -1,2 +1,15 @@
-# apextats-bot
-Just a Discord bot to display Apex Legends player information :)
+## apextats-bot
+Just another Discord bot, this is going to show you info about your Apex Legends current stats (ranked, kills, etc).
+
+### available commands
+`!ax gif` - Returns a random apex legends gif. <br/>
+`!ax stats {your_username} {platform_where_you_play}` <br/>
+<b>e.g.</b> `!ax stats LilToadd Origin` - Returns apex Legends info about the given username and platform.
+
+
+Supported platforms: <b>Origin</b>, <b>XBOX</b>, <b>PS</b>. <br/>
+Wanna add this bot to your server? <b>[Click here!](https://discordapp.com/oauth2/authorize?client_id=682345738000269427&scope=bot&permissions=8)</b> :point_left:
+
+Big thanks to <b>[apex.tracker.gg](https://apex.tracker.gg/)</b> for providing the <b>API</b>. <br/>
+
+<img src="https://lh3.googleusercontent.com/proxy/G3BE4dszx8hYRnU-UB42elycDPEHzp39PiEGT2XsPy-L3BI3y7AvZjg1L6sHUffsK3fxG63ZvyCN79Hcis8-8q41YCTZ-R4C_6OO0WQtOx2k" width="140">
