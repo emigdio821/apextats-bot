@@ -2,6 +2,7 @@ const { discordClientId } = require("../config-files/config.json");
 
 module.exports = {
   onHelpMessage: message => {
+    message.channel.stopTyping();
     message.channel.send({
       embed: {
         author: {

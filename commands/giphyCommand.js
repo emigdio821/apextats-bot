@@ -5,20 +5,21 @@ const giphy = GphApiClient(giphyToken);
 module.exports = {
   onSearchGiphy: message => {
     giphy
-      .search("gifs", { "q": "apex legends" })
+      .search("gifs", { "q": "apex legends", "limit": 50 })
       .then(response => {
         let gifLength = response.data.length;
-        let gifIdx = Math.floor(Math.random() * 10 + 1) % gifLength;
-        let pickedGif = response.data[gifIdx];
+        let randomGif = response.data[Math.floor(Math.random() * gifLength)];
 
+        message.channel.stopTyping();
         message.channel.send({
           embed: {
             description: "GIF found! - beep boop :wrench: :robot:",
-            files: [pickedGif.images.fixed_height.url]
+            files: [randomGif.images.fixed_height.url]
           }
         });
       })
       .catch(() => {
+        message.channel.stopTyping();
         message.channel.send({
           embed: {
             description: "Oops! something went wrong, try again :cry:"

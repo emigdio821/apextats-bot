@@ -41,11 +41,7 @@ module.exports = {
         const rankScore = getObjByKey(stats, "RankScore");
         const embed = new Discord.RichEmbed()
           .setAuthor("【 XTATS 】", data.metadata.avatarUrl)
-          .setTitle(
-            `${data.metadata.platformUserHandle} | ${stylePlatformStr(
-              platformStr
-            )} | ${data.metadata.rankName}`
-          )
+          .setTitle(onSetTitle(data, platformStr))
           .setURL(
             `https://apex.tracker.gg/apex/search?name=${formatParamSpace(
               user
@@ -91,8 +87,23 @@ module.exports = {
           message,
           `${error.response.data.errors[0].message} :grimacing:`
         );
+      })
+      .then(() => {
+        message.channel.stopTyping();
       });
   }
+};
+
+var onSetTitle = (data, platformStr) => {
+  let title = `${data.metadata.platformUserHandle} | ${stylePlatformStr(
+    platformStr
+  )} | ${data.metadata.rankName}`;
+
+  if (data.metadata.countryCode) {
+    title = title + ` | ${data.metadata.countryCode}`;
+  }
+
+  return title.toUpperCase();
 };
 
 var getPlatform = platform => {
@@ -117,15 +128,16 @@ var getObjByKey = (array, key) => {
 var stylePlatformStr = platform => {
   let platformStyled = platform;
   if (platform === "ps" || platform === "psn") {
-    platformStyled = "playstation";
+    platformStyled = "psn";
   } else if (platform === "origin" || platform === "pc") {
-    platformStyled = "origin (pc)";
+    platformStyled = "origin-pc";
   }
 
-  return platformStyled.toUpperCase();
+  return platformStyled;
 };
 
 var onDisplayErrorMsg = (message, description) => {
+  message.channel.stopTyping();
   return message.channel.send({
     embed: {
       author: {

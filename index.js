@@ -11,33 +11,32 @@ client.on("ready", () => {
 });
 
 client.on("message", message => {
-  let msgContent = message.content.toLowerCase();
-
-  if (msgContent === "ping") {
-    message.reply("Pong!");
-  } else if (msgContent === "ding") {
-    message.reply("Dong!");
-  } else if (msgContent === "pito pito") {
-    message.reply("gorgorito!");
-  }
-
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   if (message.content.startsWith(`${prefix} gif`)) {
-    giphyCommand.onSearchGiphy(message);
+    message.channel.startTyping();
+    setTimeout(() => {
+      giphyCommand.onSearchGiphy(message);
+    }, 500);
   }
 
   if (message.content.startsWith(`${prefix} help`)) {
-    helpCommand.onHelpMessage(message);
+    message.channel.startTyping();
+    setTimeout(() => {
+      helpCommand.onHelpMessage(message);
+    }, 1000);
   }
 
   let statsPrefix = `${prefix} stats`;
   if (message.content.startsWith(statsPrefix)) {
+    message.channel.startTyping();
     const args = message.content.slice(statsPrefix.length).split(" ");
     const options = args.filter(Boolean);
 
     if (options.length <= 0) return;
-    statsCommand.onShowStats(message, options);
+    setTimeout(() => {
+      statsCommand.onShowStats(message, options);
+    }, 500);
   }
 });
 
