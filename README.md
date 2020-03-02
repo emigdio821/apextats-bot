@@ -12,4 +12,4 @@ Wanna add this bot to your server? <b>[Click here!](https://discordapp.com/oauth
 
 Big thanks to <b>[apex.tracker.gg](https://apex.tracker.gg/)</b> for providing the <b>API</b>. <br/>
 
-<img src="https://lh3.googleusercontent.com/proxy/G3BE4dszx8hYRnU-UB42elycDPEHzp39PiEGT2XsPy-L3BI3y7AvZjg1L6sHUffsK3fxG63ZvyCN79Hcis8-8q41YCTZ-R4C_6OO0WQtOx2k" width="140">
+<img src="https://logodownload.org/wp-content/uploads/2019/02/apex-legends-logo.png" width="140">
