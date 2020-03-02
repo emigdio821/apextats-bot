@@ -13,6 +13,7 @@ module.exports = {
         description:
           "**commands:** \n" +
           "**`!ax gif`** - Returns a random apex legends gif. \n" +
+          "**`!ax news`** - Returns some news about Apex Legends. \n" +
           "**`!ax stats {your_username} {platform_where_you_play}`**\n" +
           "e.g. **`!ax stats LilToadd Origin`** - Returns apex Legends info about the given username and platform. \n\n\n" +
           "Supported platforms: **Origin**, **XBOX**, **PS**. \n" +

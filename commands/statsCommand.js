@@ -1,6 +1,7 @@
 const axios = require("axios");
 const Discord = require("discord.js");
 const { apexToken } = require("../config-files/config.json");
+const utils = require("../util/utils.js");
 
 module.exports = {
   onShowStats: (message, options) => {
@@ -10,7 +11,7 @@ module.exports = {
         " commands by typing **`!ax help`**, remember that if you want to review your stats," +
         " it should be something like this:\n" +
         "**`!ax stats {your_username} {platform_where_you_play}`**";
-      onDisplayErrorMsg(message, description);
+      utils.onDisplayErrorMsg(message, description);
       return;
     }
 
@@ -22,7 +23,7 @@ module.exports = {
     )}/`;
 
     if (!platform) {
-      onDisplayErrorMsg(
+      utils.onDisplayErrorMsg(
         message,
         "Seems like you inserted an invalid platform :thinking:"
       );
@@ -48,13 +49,11 @@ module.exports = {
             )}&platform=${platform}`
           )
           .setThumbnail(data.metadata.rankImage)
-          // .setColor("#FC3903")
           .setDescription(
-            `Seems like you are doing a great job playing **${data.children[0].metadata.legend_name}**, keep carrying your teammates (or not) :wink:. \n\n` +
+            `Seems like you are currently playing **${data.children[0].metadata.legend_name}**, keep carrying your teammates (or not) :wink:. \n\n` +
               "Here you have some of your Apex Legends stats:"
           )
           .setImage(data.children[0].metadata.bgimage)
-          // .addBlankField(true)
           .setFooter(
             "Powered by apex.tracker.gg",
             data.children[0].metadata.icon
@@ -83,7 +82,7 @@ module.exports = {
         message.channel.send({ embed });
       })
       .catch(error => {
-        onDisplayErrorMsg(
+        utils.onDisplayErrorMsg(
           message,
           `${error.response.data.errors[0].message} :grimacing:`
         );
@@ -134,20 +133,6 @@ var stylePlatformStr = platform => {
   }
 
   return platformStyled;
-};
-
-var onDisplayErrorMsg = (message, description) => {
-  message.channel.stopTyping();
-  return message.channel.send({
-    embed: {
-      author: {
-        name: "【 OOPS! 】",
-        icon_url:
-          "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/caution-512.png"
-      },
-      description: description
-    }
-  });
 };
 
 var formatParamSpace = str => {
