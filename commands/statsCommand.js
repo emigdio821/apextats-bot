@@ -41,7 +41,7 @@ module.exports = {
         const kills = getObjByKey(stats, "Kills");
         const rankScore = getObjByKey(stats, "RankScore");
         const embed = new Discord.RichEmbed()
-          .setAuthor("【 XTATS 】", data.metadata.avatarUrl)
+          .setAuthor("「XTATS」", data.metadata.avatarUrl)
           .setTitle(onSetTitle(data, platformStr))
           .setURL(
             `https://apex.tracker.gg/apex/search?name=${formatParamSpace(

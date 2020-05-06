@@ -15,7 +15,7 @@ module.exports = {
         for (let i = 0; i < 2; i++) {
           const embed = new Discord.RichEmbed()
             .setAuthor(
-              "【 NEWS 】",
+              "「APEX NEWS」",
               "https://cdn3.iconfinder.com/data/icons/social-media-chat-1/512/Rss-512.png"
             )
             .setTitle(data[i].title)

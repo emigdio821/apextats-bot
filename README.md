@@ -2,9 +2,9 @@
 Just another Discord bot, this is going to show you info about your Apex Legends current stats (ranked, kills, etc).
 
 ### available commands
-`!ax gif` - Returns a random apex legends gif. <br/>
+`!ax gif` - Returns a random Apex Legends gif. <br/>
 `!ax stats {your_username} {platform_where_you_play}` <br/>
-<b>e.g.</b> `!ax stats LilToadd Origin` - Returns apex Legends info about the given username and platform.
+<b>e.g.</b> `!ax stats LilToadd Origin` - Returns Apex Legends info about the given username and platform.
 
 
 Supported platforms: <b>Origin</b>, <b>XBOX</b>, <b>PS</b>. <br/>

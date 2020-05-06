@@ -5,7 +5,7 @@ const giphy = GphApiClient(giphyToken);
 module.exports = {
   onSearchGiphy: message => {
     giphy
-      .search("gifs", { "q": "apex legends", "limit": 50 })
+      .search("gifs", { "q": "apex-legends", "limit": 30 })
       .then(response => {
         let gifLength = response.data.length;
         let randomGif = response.data[Math.floor(Math.random() * gifLength)];
