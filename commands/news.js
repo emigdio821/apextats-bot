@@ -1,23 +1,20 @@
 const axios = require("axios");
 const Discord = require("discord.js");
-const { mozambiqueToken } = require("../config-files/config.json");
-const utils = require("../util/utils.js");
+const { mozambiqueToken } = require("../config/config.json");
+const utils = require("../handlers/error.js");
 
 module.exports = {
-  onShowNews: message => {
+  onShowNews: (message) => {
     const url = `https://api.mozambiquehe.re/news?lang=en-us&auth=${mozambiqueToken}`;
 
     axios
       .get(url)
-      .then(response => {
+      .then((response) => {
         const data = response.data;
 
         for (let i = 0; i < 2; i++) {
           const embed = new Discord.RichEmbed()
-            .setAuthor(
-              "「APEX NEWS」",
-              "https://cdn3.iconfinder.com/data/icons/social-media-chat-1/512/Rss-512.png"
-            )
+            .setAuthor("「APEX NEWS」", "https://i.imgur.com/njnTQbj.png")
             .setTitle(data[i].title)
             .setURL(data[i].link)
             .setDescription(
@@ -31,15 +28,15 @@ module.exports = {
           message.channel.send({ embed });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         utils.onDisplayErrorMsg(
           message,
-          "Oops! something went wrong, try again :cry:"
+          "Oops! something went wrong, try again."
         );
       })
       .then(() => {
         message.channel.stopTyping();
       });
-  }
+  },
 };

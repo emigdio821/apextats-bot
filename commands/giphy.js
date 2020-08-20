@@ -1,5 +1,5 @@
 const GphApiClient = require("giphy-js-sdk-core");
-const { giphyToken } = require("../config-files/config.json");
+const { giphyToken } = require("../config/config.json");
 const giphy = GphApiClient(giphyToken);
 
 module.exports = {

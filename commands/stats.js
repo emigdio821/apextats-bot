@@ -1,7 +1,7 @@
 const axios = require("axios");
 const Discord = require("discord.js");
-const { apexToken } = require("../config-files/config.json");
-const utils = require("../util/utils.js");
+const { apexToken } = require("../config/config.json");
+const utils = require("../handlers/error.js");
 
 module.exports = {
   onShowStats: (message, options) => {
@@ -25,16 +25,17 @@ module.exports = {
     if (!platform) {
       utils.onDisplayErrorMsg(
         message,
-        "Seems like you inserted an invalid platform :thinking:"
+        "Hmm, seems like you inserted an invalid platform.",
+        "https://i.imgur.com/8mUK8Vt.png"
       );
       return;
     }
 
     axios
       .get(url, {
-        headers: { "TRN-Api-Key": apexToken }
+        headers: { "TRN-Api-Key": apexToken },
       })
-      .then(response => {
+      .then((response) => {
         const data = response.data.data;
         const stats = data.stats;
         const level = getObjByKey(stats, "Level");
@@ -81,16 +82,16 @@ module.exports = {
 
         message.channel.send({ embed });
       })
-      .catch(error => {
+      .catch((error) => {
         utils.onDisplayErrorMsg(
           message,
-          `${error.response.data.errors[0].message} :grimacing:`
+          `${error.response.data.errors[0].message}`
         );
       })
       .then(() => {
         message.channel.stopTyping();
       });
-  }
+  },
 };
 
 var onSetTitle = (data, platformStr) => {
@@ -105,7 +106,7 @@ var onSetTitle = (data, platformStr) => {
   return title.toUpperCase();
 };
 
-var getPlatform = platform => {
+var getPlatform = (platform) => {
   let platformCode;
   if (platform === "xbox") {
     platformCode = 1;
@@ -121,10 +122,10 @@ var getPlatform = platform => {
 };
 
 var getObjByKey = (array, key) => {
-  return array.find(element => element.metadata.key === key);
+  return array.find((element) => element.metadata.key === key);
 };
 
-var stylePlatformStr = platform => {
+var stylePlatformStr = (platform) => {
   let platformStyled = platform;
   if (platform === "ps" || platform === "psn") {
     platformStyled = "psn";
@@ -135,6 +136,6 @@ var stylePlatformStr = platform => {
   return platformStyled;
 };
 
-var formatParamSpace = str => {
+var formatParamSpace = (str) => {
   return str.replace(/ /g, "%20");
 };

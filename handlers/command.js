@@ -1,11 +1,11 @@
-const giphyCommand = require("../commands/giphyCommand.js");
-const helpCommand = require("../commands/helpCommand.js");
-const statsCommand = require("../commands/statsCommand.js");
-const newsCommand = require("../commands/newsCommand.js");
-const { prefix } = require("../config-files/config.json");
+const giphyCommand = require("../commands/giphy.js");
+const helpCommand = require("../commands/help.js");
+const statsCommand = require("../commands/stats.js");
+const newsCommand = require("../commands/news.js");
+const { prefix } = require("../config/config.json");
 
 module.exports = {
-  onHandleMessage: message => {
+  onHandleMessage: (message) => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     if (message.content.startsWith(`${prefix} gif`)) {
@@ -40,5 +40,5 @@ module.exports = {
         newsCommand.onShowNews(message);
       }, 500);
     }
-  }
+  },
 };
