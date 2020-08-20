@@ -1,7 +1,7 @@
 const axios = require("axios");
 const Discord = require("discord.js");
 const { mozambiqueToken } = require("../config/config.json");
-const utils = require("../handlers/error.js");
+const errHandler = require("../handlers/error.js");
 
 module.exports = {
   onShowNews: (message) => {
@@ -30,7 +30,7 @@ module.exports = {
       })
       .catch((error) => {
         console.log(error);
-        utils.onDisplayErrorMsg(
+        errHandler.onDisplayErrorMsg(
           message,
           "Oops! something went wrong, try again."
         );

@@ -1,7 +1,7 @@
 const axios = require("axios");
 const Discord = require("discord.js");
 const { apexToken } = require("../config/config.json");
-const utils = require("../handlers/error.js");
+const errHandler = require("../handlers/error.js");
 
 module.exports = {
   onShowStats: (message, options) => {
@@ -11,7 +11,7 @@ module.exports = {
         " commands by typing **`!ax help`**, remember that if you want to review your stats," +
         " it should be something like this:\n" +
         "**`!ax stats {your_username} {platform_where_you_play}`**";
-      utils.onDisplayErrorMsg(message, description);
+      errHandler.onDisplayErrorMsg(message, description);
       return;
     }
 
@@ -23,7 +23,7 @@ module.exports = {
     )}/`;
 
     if (!platform) {
-      utils.onDisplayErrorMsg(
+      errHandler.onDisplayErrorMsg(
         message,
         "Hmm, seems like you inserted an invalid platform.",
         "https://i.imgur.com/8mUK8Vt.png"
@@ -83,7 +83,7 @@ module.exports = {
         message.channel.send({ embed });
       })
       .catch((error) => {
-        utils.onDisplayErrorMsg(
+        errHandler.onDisplayErrorMsg(
           message,
           `${error.response.data.errors[0].message}`
         );
