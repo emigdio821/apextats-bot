@@ -12,7 +12,7 @@ module.exports = {
       message.channel.startTyping();
       setTimeout(() => {
         giphyCommand.onSearchGiphy(message);
-      }, 500);
+      }, 200);
     }
 
     if (message.content.startsWith(`${prefix} help`)) {
@@ -28,17 +28,16 @@ module.exports = {
       const args = message.content.slice(statsPrefix.length).split(" ");
       const options = args.filter(Boolean);
 
-      if (options.length <= 0) return;
       setTimeout(() => {
         statsCommand.onShowStats(message, options);
-      }, 500);
+      }, 200);
     }
 
     if (message.content.startsWith(`${prefix} news`)) {
       message.channel.startTyping();
       setTimeout(() => {
         newsCommand.onShowNews(message);
-      }, 500);
+      }, 200);
     }
   },
 };

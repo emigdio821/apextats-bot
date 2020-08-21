@@ -5,13 +5,17 @@ const errHandler = require("../handlers/error.js");
 
 module.exports = {
   onShowStats: (message, options) => {
-    if (options.length < 2) {
+    if (options.length < 2 || options.length > 2) {
       let description =
-        "Seems like you are missing an option, please review the available" +
-        " commands by typing **`!ax help`**, remember that if you want to review your stats," +
-        " it should be something like this:\n" +
+        "Seems like you are using invalid command options, please review the available" +
+        " commands by typing **`!ax help`**.\n\n" +
+        "Remember that if you want to review your stats, it should be something like this:\n" +
         "**`!ax stats {your_username} {platform_where_you_play}`**";
-      errHandler.onDisplayErrorMsg(message, description);
+      errHandler.onDisplayErrorMsg(
+        message,
+        description,
+        "https://i.imgur.com/8mUK8Vt.png"
+      );
       return;
     }
 
