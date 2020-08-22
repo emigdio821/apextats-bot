@@ -12,7 +12,7 @@ Wanna add this bot to your server? <b>[Click here!](https://discordapp.com/oauth
 
 ### Big thanks to 
 <b>[apex.tracker.gg](https://apex.tracker.gg/)</b> for the STATS <b>API</b>. <br/>
-<b>[mozambiquehe.re](http://mozambiquehe.re/)</b> for the NEWS <b>API</b>. <br/><br/>
+<b>[mozambiquehe.re](http://mozambiquehe.re/)</b> for the NEWS and SERVER_STATUS <b>API</b>. <br/><br/>
 
 
 <img src="https://logodownload.org/wp-content/uploads/2019/02/apex-legends-logo.png" width="140">
