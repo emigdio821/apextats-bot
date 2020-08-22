@@ -2,6 +2,7 @@ const giphyCommand = require("../commands/giphy.js");
 const helpCommand = require("../commands/help.js");
 const statsCommand = require("../commands/stats.js");
 const newsCommand = require("../commands/news.js");
+const serverCommand = require("../commands/server.js");
 const { prefix } = require("../config/config.json");
 
 module.exports = {
@@ -37,6 +38,13 @@ module.exports = {
       message.channel.startTyping();
       setTimeout(() => {
         newsCommand.onShowNews(message);
+      }, 200);
+    }
+
+    if (message.content.startsWith(`${prefix} server`)) {
+      message.channel.startTyping();
+      setTimeout(() => {
+        serverCommand.onShowServerStatus(message);
       }, 200);
     }
   },

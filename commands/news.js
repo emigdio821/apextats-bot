@@ -22,7 +22,10 @@ module.exports = {
                 "Click the **title** for more info."
             )
             .setImage(data[i].img)
-            .setFooter("Powered by mozambiquehe.re")
+            .setFooter(
+              "Powered by mozambiquehe.re",
+              "https://mozambiquehe.re/assets/layout/apexlogo.png"
+            )
             .setTimestamp();
 
           message.channel.send({ embed });
