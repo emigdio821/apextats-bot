@@ -5,7 +5,7 @@ const errHandler = require("../handlers/error.js");
 
 module.exports = {
   onShowStats: (message, options) => {
-    if (options.length < 2 || options.length > 2) {
+    if (options.length < 2) {
       let description =
         "Seems like you are using invalid command options, please review the available" +
         " commands by typing **`!ax help`**.\n\n" +
@@ -21,6 +21,7 @@ module.exports = {
 
     const platformStr = options.pop();
     const platform = getPlatform(platformStr.toLowerCase());
+    const platformIcon = getPlatformIcon(platformStr.toLowerCase());
     const user = options.join(" ");
     const url = `https://public-api.tracker.gg/apex/v1/standard/profile/${platform}/${formatParamSpace(
       user
@@ -46,7 +47,7 @@ module.exports = {
         const kills = getObjByKey(stats, "Kills");
         const rankScore = getObjByKey(stats, "RankScore");
         const embed = new Discord.RichEmbed()
-          .setAuthor("「XTATS」", data.metadata.avatarUrl)
+          .setAuthor("「XTATS」", platform === 5 ? platformIcon : data.metadata.avatarUrl)
           .setTitle(onSetTitle(data, platformStr))
           .setURL(
             `https://apex.tracker.gg/apex/search?name=${formatParamSpace(
@@ -107,7 +108,7 @@ var onSetTitle = (data, platformStr) => {
     title = title + ` | ${data.metadata.countryCode}`;
   }
 
-  return title.toUpperCase();
+  return title;
 };
 
 var getPlatform = (platform) => {
@@ -130,11 +131,13 @@ var getObjByKey = (array, key) => {
 };
 
 var stylePlatformStr = (platform) => {
-  let platformStyled = platform;
-  if (platform === "ps" || platform === "psn") {
-    platformStyled = "psn";
-  } else if (platform === "origin" || platform === "pc") {
-    platformStyled = "origin-pc";
+  let platformStyled = platform.toLowerCase();
+  if (platformStyled === "ps" || platform === "psn") {
+    platformStyled = "PSN";
+  } else if (platformStyled === "origin" || platformStyled === "pc") {
+    platformStyled = "PC";
+  } else {
+    platformStyled = "XBOX";
   }
 
   return platformStyled;
@@ -143,3 +146,16 @@ var stylePlatformStr = (platform) => {
 var formatParamSpace = (str) => {
   return str.replace(/ /g, "%20");
 };
+
+var getPlatformIcon = (platform) => {
+  let platformIconUrl = platform.toLowerCase();
+  if (platformIconUrl === "ps" || platformIconUrl === "psn") {
+    platformIconUrl = "https://i.imgur.com/s5HTYU5.png";
+  } else if (platformIconUrl === "origin" || platformIconUrl === "pc") {
+    platformIconUrl = "https://i.imgur.com/d1ZIxtK.png";
+  } else {
+    platformIconUrl = "https://i.imgur.com/oJKN1ee.png";
+  }
+
+  return platformIconUrl;
+}
