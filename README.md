@@ -3,6 +3,8 @@ Just another Discord bot, this is going to show you info about your Apex Legends
 
 ### available commands
 `!ax gif` - Returns a random Apex Legends gif. <br/>
+`!ax news` - Returns some news about Apex Legends. <br/>
+`!ax server` - Returns info about Apex Legends servers status. <br/>
 `!ax stats {your_username} {platform_where_you_play}` <br/>
 <b>e.g.</b> `!ax stats LilToadd Origin` - Returns Apex Legends info about the given username and platform.
 
