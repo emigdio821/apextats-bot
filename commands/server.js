@@ -1,10 +1,11 @@
 const axios = require("axios");
 const Discord = require("discord.js");
 const errHandler = require("../handlers/error.js");
+const { mozambiqueToken } = require("../config/config.json");
 
 module.exports = {
   onShowServerStatus: (message) => {
-    const url = "https://apexlegendsstatus.com/servers.json";
+    const url = `https://api.mozambiquehe.re/servers?auth=${mozambiqueToken}`;
 
     axios
       .get(url)
@@ -15,7 +16,9 @@ module.exports = {
             "https://cdn2.iconfinder.com/data/icons/small-color-v5/512/data_hosting_server_storage_tower-512.png"
           )
           .setTitle("Apex Legends servers status")
-          .setDescription("Please note that some of the data displayed may be wrong or out of date.")
+          .setDescription(
+            "Please note that some of the data displayed may be wrong or out of date. \n\n:white_check_mark: = **Up**\n:fire: = **Slow**\n:no_entry_sign: = **Down**"
+          )
           .setThumbnail("https://i.imgur.com/MjopzpW.png")
           .setImage("https://i.imgur.com/AEVfPxQ.png")
           .setFooter(
@@ -70,7 +73,7 @@ var formatSouthAmerica = (string) => {
 };
 
 var getServerStatusIcon = (status) => {
-  let icon;
+  let icon = ":fire:";
   if (status === "UP") {
     icon = ":white_check_mark:";
   } else if (status === "DOWN") {
