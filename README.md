@@ -1,4 +1,4 @@
-## apextats-bot
+## apextats-bot | no longer maintained
 Just another Discord bot, this is going to show you info about your Apex Legends current stats (ranked, kills, etc).
 
 ### available commands
